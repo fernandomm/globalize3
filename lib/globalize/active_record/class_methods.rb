@@ -58,6 +58,14 @@ module Globalize
         "#{translation_class.table_name}.#{name}"
       end
 
+      def where(opts, *rest)
+        if opts.is_a?(Hash) && (keys = opts.symbolize_keys.keys & translated_attribute_names).present?
+          keys.each { |key| opts[translations_table_name + '.' + key.to_s] = opts.delete(key) }
+          return with_translations(Globalize.locale).where(opts, *rest)
+        end
+        super
+      end
+
       def respond_to_missing?(method_id, include_private = false)
         supported_on_missing?(method_id) || super
       end

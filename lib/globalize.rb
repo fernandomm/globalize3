@@ -3,7 +3,6 @@ require 'patches/active_record/xml_attribute_serializer'
 require 'patches/active_record/query_method'
 require 'patches/active_record/uniqueness_validator'
 require 'patches/active_record/relation'
-require 'patches/active_record/translated_attributes_query'
 
 module Globalize
   autoload :ActiveRecord, 'globalize/active_record'
