@@ -60,7 +60,7 @@ module Globalize
 
       def where(opts, *rest)
         if opts.is_a?(Hash) && (keys = opts.symbolize_keys.keys & translated_attribute_names).present?
-          keys.each { |key| (opts[translations_table_name] ||= {})[key] = opts.delete(key) }
+          keys.each { |key| opts[translated_column_name(key)] = opts.delete(key) }
           return with_translations(Globalize.locale).where(opts, *rest)
         end
         super
