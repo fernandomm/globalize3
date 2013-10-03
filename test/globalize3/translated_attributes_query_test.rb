@@ -27,6 +27,17 @@ class TranslatedAttributesQueryTest < MiniTest::Spec
       skip 'is this even possible?'
       assert_equal post.translations, post_by_where.translations
     end
+
+    it 'can be called with no argument' do
+      user = User.create(:email => 'foo@example.com', :name => 'foo')
+      assert_equal User.where.not(:email => 'foo@example.com').load, []
+      assert_equal User.where.not(:email => 'bar@example.com').load, [user]
+    end
+
+    it 'can be called with multiple arguments' do
+      user = User.create(:email => 'foo@example.com', :name => 'foo')
+      assert_equal User.where("email = :email", { :email => 'foo@example.com' }).first, user
+    end
   end
 
   describe '.find_by' do

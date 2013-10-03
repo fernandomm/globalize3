@@ -58,7 +58,7 @@ module Globalize
         "#{translation_class.table_name}.#{name}"
       end
 
-      def where(opts, *rest)
+      def where(opts = :chain, *rest)
         if opts.is_a?(Hash) && (keys = opts.symbolize_keys.keys & translated_attribute_names).present?
           keys.each { |key| opts[translated_column_name(key)] = opts.delete(key) }
           return with_translations(Globalize.locale).where(opts, *rest)
