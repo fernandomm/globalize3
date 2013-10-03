@@ -66,6 +66,10 @@ module Globalize
         super
       end
 
+      def find_by(*args)
+        where(*args).take
+      end
+
       def respond_to_missing?(method_id, include_private = false)
         supported_on_missing?(method_id) || super
       end

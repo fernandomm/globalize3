@@ -3,9 +3,10 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class TranslatedAttributesQueryTest < MiniTest::Spec
   describe '.where' do
-    it 'finds record with matching attribute value in translation table' do
-      post = Post.create(:title => 'a title')
-      assert_equal Post.where(:title => 'a title').first, post
+    it 'finds records with matching attribute value in translation table' do
+      post = Post.create(:title => 'title 1')
+      Post.create(:title => 'title 2')
+      assert_equal Post.where(:title => 'title 1').load, [post]
     end
 
     it 'only returns translations in this locale' do
@@ -25,6 +26,14 @@ class TranslatedAttributesQueryTest < MiniTest::Spec
       post_by_where = Post.where(:title => 'a title').first
       skip 'is this even possible?'
       assert_equal post.translations, post_by_where.translations
+    end
+  end
+
+  describe '.find_by' do
+    it 'finds first record with matching attribute value in translation table' do
+      Post.create(:title => 'title 1')
+      post = Post.create(:title => 'title 2')
+      assert_equal Post.find_by(:title => 'title 2'), post
     end
   end
 end
